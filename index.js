@@ -154,4 +154,21 @@ showVideoDetails = (video) => {
     document.getElementById("video_modal").showModal();
 }
 
+document.getElementById("sort").addEventListener("click", (event) => {
+    const buttons = document.getElementsByClassName("active");
+    for (let button of buttons) {
+        button.classList.remove("active");
+    }
+    fetch("https://openapi.programming-hero.com/api/phero-tube/videos/")
+        .then(response => response.json())
+        .then(data => {
+            const sortedData = data.videos.sort((a, b) => {
+                const dateA = parseInt(a.others.posted_date) || 0;
+                const dateB = parseInt(b.others.posted_date) || 0;
+                return dateA - dateB;
+            });
+            displayVideo(sortedData);
+        });
+})
+
 loadVideo();
