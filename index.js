@@ -98,15 +98,60 @@ displayVideo = (videos) => {
               <p class="text-sm text-gray-400">${video.others.views} views</p>
             </div>
           </div>
-          <button
-            class="btn btn-soft btn-info btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl"
-          >
+          <button onclick = "loadVideoDetails('${video.video_id}')"
+            class="btn btn-soft btn-info btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">
             Details
           </button>
         </div>
     `
         videoContainer.innerHTML += videoCard;
     });
+}
+
+document.getElementById("input").addEventListener("keyup", (event) => {
+    const title = event.target.value;
+    loadTitleVideo(title);
+})
+
+loadTitleVideo = (input = "") => {
+    const url = "https://openapi.programming-hero.com/api/phero-tube/videos?title=" + input;
+    const buttons = document.getElementsByClassName("active");
+    for (let button of buttons) {
+        button.classList.remove("active");
+    }
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            displayVideo(data.videos);
+        });
+}
+
+loadVideoDetails = (id) => {
+    const url = "https://openapi.programming-hero.com/api/phero-tube/video/" + id;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            showVideoDetails(data.video)
+        });
+}
+
+showVideoDetails = (video) => {
+    const detailsContainer = document.getElementById("details_container");
+    detailsContainer.innerHTML = `
+        <figure>
+            <img
+            src="${video.thumbnail}"
+            alt="Thumbnail"
+            />
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title">${video.title}</h2>
+            <p> ${video.description} </p>
+            <p> Authors: ${video.authors[0].profile_name} </p>
+            <p> Total views: ${video.others.views} </p>
+        </div>
+    `
+    document.getElementById("video_modal").showModal();
 }
 
 loadVideo();

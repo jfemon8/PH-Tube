@@ -38,7 +38,7 @@
               <path d="m21 21-4.3-4.3"></path>
             </g>
           </svg>
-          <input type="search" class="grow" placeholder="Search" />
+          <input id="input" type="search" class="grow" placeholder="Search" />
         </label>
         <button
           class="btn bg-[#FF1F3D] text-white hover:bg-gray-300 hover:text-black"
@@ -59,9 +59,23 @@
         </button>
       </div>
 
-      <main id="video_container" class="mt-10 grid grid-cols-4 gap-6">
-        
-      </main>
+      <main id="video_container" class="mt-10 grid grid-cols-4 gap-6"></main>
+
+      <dialog id="video_modal" class="modal">
+        <div class="modal-box">
+          <form method="dialog">
+            <button
+              class="btn btn-sm btn-circle btn-ghost absolute right-1 top-1"
+            >
+              ✕
+            </button>
+          </form>
+          <div
+            id="details_container"
+            class="card bg-base-100 image-full shadow-sm bg-black"
+          ></div>
+        </div>
+      </dialog>
     </section>
 
     <script src="index.js"></script>
