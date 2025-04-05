@@ -11,7 +11,18 @@ fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
         }
     });
 
+addLoader = () => {
+    document.getElementById("loader").classList.remove("hidden");
+    document.getElementById("video_container").classList.add("hidden");
+}
+
+hideLoader = () => {
+    document.getElementById("loader").classList.add("hidden");
+    document.getElementById("video_container").classList.remove("hidden");
+}
+
 function loadVideo() {
+    addLoader();
     const buttons = document.getElementsByClassName("active");
     for (let button of buttons) {
         button.classList.remove("active");
@@ -22,9 +33,11 @@ function loadVideo() {
         .then(data => {
             displayVideo(data.videos);
         });
+    hideLoader();
 }
 
 loadCategoryVideo = (cat_id) => {
+    addLoader();
     const url = "https://openapi.programming-hero.com/api/phero-tube/category/" + cat_id;
     const buttons = document.getElementsByClassName("active");
     for (let button of buttons) {
@@ -36,6 +49,7 @@ loadCategoryVideo = (cat_id) => {
         .then(data => {
             displayVideo(data.category);
         });
+    hideLoader();
 }
 
 timeCalculation = (time) => {
@@ -109,8 +123,10 @@ displayVideo = (videos) => {
 }
 
 document.getElementById("input").addEventListener("keyup", (event) => {
+    addLoader();
     const title = event.target.value;
     loadTitleVideo(title);
+    hideLoader();
 })
 
 loadTitleVideo = (input = "") => {
